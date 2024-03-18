@@ -1,0 +1,60 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-archive"></i> Produtos</h1>
+            <p>Visualização, edição e criação dos produtos</p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+            <li class="breadcrumb-item active"><a href="{{url_for('.exibeProduto')}}">Produtos</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+            <div class="tile">
+                <form action="{{ url_for ('.addProduto') }}"><button class="btn btn-primary"><i class="fa fa-fw fa-user"></i>Inserir novo produto</button></form>
+                <br /><br />
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="tabCad">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Produto</th>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dados in data %}
+                                <tr>
+                                    <td>{{ dados[0] }}</td>
+                                    <td>{{ dados[1] }}</td>
+                                    <td>{{ dados[2] }}</td>
+                                    <td>{{ dados[3] }}</td>
+                                    <td>
+                                        <form style="display: inline" action="{{ url_for ('.visProduto', idProduto = dados[0])}}"><button style="background-color: #4CAF50; border: none; border-radius: 25%;" title="Visualizar"><i class="fa fa-search" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                        <form style="display: inline" action="{{ url_for ('.upProduto', idProduto = dados[0]) }}"><button style="background-color: #2196f3; border: none; border-radius: 25%;" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                        <form style="display: inline; border: none;" action="{{ url_for ('.remProduto', idProd = dados[0]) }}"><button style="background-color: #ff0000; border: none; border-radius: 25%;" title="Remover"><i class="fa fa-times" aria-hidden="true"></i></button></form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

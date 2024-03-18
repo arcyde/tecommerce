@@ -1,0 +1,59 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-archive"></i> Referências</h1>
+        <p>Exibição e aprovação / reprovação das referências enviadas pelos clientes</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">E-Commerce</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeCategoria') }}">Referências</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+        {% endfor %}
+        <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" id="tabCad">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Comentário</th>
+                                <th>Data / Hora</th>
+                                <th>Exibir na WEB</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dados in data %}
+                            <tr>
+                                <td>{{ dados[0] }}</td>
+                                <td><a href="{{url_for('.visCliente', idCliente=dados[1])}}">{{ dados[2] }}</a></td>
+                                <td>{{ dados[4] }}</td>
+                                <td>{{ dados[3] }}</td>
+                                <td>{{ dados[5] }}</td>
+                                <td>
+                                    <form style="display: inline" action="{{ url_for ('.altReferencia', idReferencia = dados[0])}}"><button style="background-color: #4CAF50; border: none; border-radius: 25%;" {% if dados[5] == 'SIM' %} title="Ocultar" {% else %} title="Visualizar" {% endif %}><i {% if dados[5] == 'SIM' %} class="fa fa-eye-slash" {% else %} class="fa fa-eye" {% endif %} aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                    <form style="display: inline; border: none;" action="{{ url_for ('.remReferencia', idReferencia = dados[0]) }}"><button style="background-color: #ff0000; border: none; border-radius: 25%;" title="Remover"><i class="fa fa-times" aria-hidden="true"></i></button></form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

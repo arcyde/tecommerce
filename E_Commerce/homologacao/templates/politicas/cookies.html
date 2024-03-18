@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-lock"></i> Cookies</h1>
+        <p>Política de cookies</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Políticas</a></li>
+        <li class="breadcrumb-item"><a href="#">Cookies</a></li>
+    </ul>
+</div>
+
+<div class="row">
+    
+    <div class="tile">
+        <div class="tile-body">
+
+            <h3 style="text-align:center">Política de Cookies</h3>
+            <br>
+            <p>
+                A presente Política de Cookies é um documento complementar à Política de Privacidade da Arcyde Development, disponível neste link: <a href="{{url_for('.politicasPrivacidade')}}">Política de privacidade</a>. Aqui, você encontrará informações objetivas e claras sobre o que são Cookies, quais Cookies utilizamos em nossas aplicações, qual papel desempenham e como configurá-los.
+            </p>
+            <p>
+                1. O que são Cookies?
+            </p>
+            <p>
+                Cookies são pequenos arquivos de texto ou fragmentos de informação que são baixados em seu computador, smartphone ou qualquer outro dispositivo com acesso à internet quando você visita nossa aplicação.
+                Eles contêm informações sobre a sua navegação em nossas páginas e retêm apenas informações relacionadas a sua sessão.
+                <br>
+                Assim, essa página consegue armazenar e recuperar os dados criados durante a navegação. É importante frisar que eles não contêm informações pessoais específicas, como dados sensíveis ou bancários.
+                O seu navegador armazena os cookies no disco rígido, mas ocupam um espaço de memória mínimo, que não afetam o desempenho do seu computador. A maioria das informações são apagadas logo ao encerrar a sessão, como você verá no próximo tópico.
+            </p>
+            <p>
+                1.1. Tipos de Cookies
+            </p>
+            Os cookies, quanto a seus proprietários, podem ser:
+            <ul>
+                <li>Cookies proprietários: são cookies definidos por nós ou por terceiros em nosso nome.</li>
+                <li>Cookies de terceiros: são cookies definidos por terceiros confiáveis.</li>
+            </ul>
+            Os cookies, quanto ao seu tempo de vida, podem ser:
+            <ul>
+                <li>Cookies de sessão ou temporários: são cookies que expiram assim que você fecha o seu navegador, encerrando a sessão.</li>
+                <li>Cookies persistentes ou permanentes: são cookies que permanecem no seu dispositivo durante um período determinado ou até que você os exclua.</li>
+            </ul>
+            Os cookies, quanto a sua finalidade, podem ser:
+            <ul>
+                <li>Cookies necessários: são cookies essenciais que possibilitam a navegação em nossas aplicações e o acesso a todos os recursos; se estes, nossos serviços podem apresentar mal desempenho ou não funcionar.</li>
+                <li>Cookies de desempenho: são cookies que otimizam a forma que nossas aplicações funcionam, coletando informações anônimas sobre as páginas acessadas.</li>
+                <li>Cookies de funcionalidade: são cookies que memorizam suas preferências e escolhas (como seu nome de usuário).</li>
+                <li>Cookies de publicidade: são cookies que direcionam anúncios em função dos seus interesses e limitam a quantidade de vezes que o anúncio aparece.</li>
+            </ul>
+            <p>
+                2. Por que usamos Cookies?
+            </p>
+            <p>
+                A Arcyde Development utiliza Cookies para armazenar a sessão atual, tornando nossas aplicações mais fáceis e personalizadas, tendo por base suas escolhas e comportamento de navegação.
+
+                Os Cookies participam deste processo porquanto armazenam, leem e executam os dados necessários para cumprir com o nosso objetivo.
+            </p>
+            <p>
+                3. Que tipo de Cookies utilizamos?
+            </p>
+            <p>
+                Abaixo listamos todos os Cookies que podem ser utilizados pela Arcyde Development.
+
+                Além disso, uma vez que os Cookies capturam a sessão, aconselhamos a leitura de nossa Política de Privacidade, disponível neste link (link da política de privacidade).
+            </p>
+            <p>
+                3.1. Cookies necessários
+            </p>
+            <table style="border: 1px solid black;">
+                <tr style="border: 1px solid black;">
+                    <th style="border: 1px solid black;">
+                        Cookie
+                    </th>
+                    <th style="border: 1px solid black;">  
+                        Tempo
+                    </th>
+                    <th style="border: 1px solid black;">
+                        Propriedade
+                    </th>
+                    <th style="border: 1px solid black;">
+                        Descrição
+                    </th>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">
+                        Sessão
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Temporário
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Arcyde Development
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Armazenamento de sessão
+                    </td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="border: 1px solid black;">
+                        Carrinho
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Temporário
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Arcyde Development
+                    </td>
+                    <td style="border: 1px solid black;">
+                        Produtos no carrinho de compras
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <p>
+                4. Gerenciamento dos Cookies
+            </p>
+            <p>
+                Atualmente, na primeira vez que você acessa nossas aplicações, será requerida a sua concordância com a instalação destes. Apenas após a sua aceitação eles serão ativados.
+
+                Para tanto, utilizamos um sistema de notificação que alerta e solicita o consentimento nas páginas do site. Dessa maneira, não apenas solicitamos sua concordância, mas também informamos que a navegação continuada em nossos sites será entendida como consentimento.
+
+                Para gerenciar os cookies do seu navegador, basta fazê-lo diretamente nas configurações do navegador, na área de gestão de Cookies.
+            </p>
+            <p>
+                5. Disposições finais
+            </p>
+            <p>
+                Para a Arcyde Development, a privacidade e confiança são fundamentais para a nossa relação com você. Estamos sempre nos atualizando para manter os mais altos padrões de segurança
+
+                Assim, reservamo-nos o direito de alterar esta Política de Cookies a qualquer tempo. As mudanças entrarão em vigor logo após a publicação, e você será avisado.
+
+                Ao continuar a navegação nas nossas aplicações após essa mudança se tornar eficaz, você concorda com elas. Aconselhamos que você sempre verifique esta Política, bem como a nossa Política de Privacidade.
+
+                Em caso de dúvidas sobre esta Política de Cookies, entre em contato conosco pelos seguintes meios:
+                <br>
+                Meio de contato: arcyde@outlook.com
+                <br>
+                Esta Política de Cookies foi atualizada pela última vez: 07/01/2022.
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

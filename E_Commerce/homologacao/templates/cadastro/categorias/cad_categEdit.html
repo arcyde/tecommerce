@@ -1,0 +1,66 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Categorias</h1>
+        <p>Visualização e edição de categorias</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeCategoria') }}">Categorias</a></li>
+        <li class="breadcrumb-item"><a href="#">Editar Categorias</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+
+<div class="tile">
+    <form class="form-horizontal" method="POST">
+        {% for dados in dados_categ %}
+        <h3 class="tile-title">Categorias</h3>
+        <br />
+        <div class="tile-body">
+
+            <div class="form-group row">
+                <label class="control-label col-md-1">Código</label>
+                <div class="col-md-1">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+                </div>
+
+                <label class="control-label col-md-2">Categoria</label>
+                <div class="col-md-4">
+                    <input class="form-control" name="categ" type="text" placeholder="Categoria" value="{{ dados[1] }}">
+                </div>
+                <label class="control-label col-md-2">Exibe na WEB</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeWEB">
+                        {% if dados[2] == 'SIM' %}
+                        <option selected value="True">SIM</option>
+                        <option value="False">NÃO</option>
+                        {% else %}
+                        <option value="True">SIM</option>
+                        <option selected value="False">NÃO</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="tile-footer">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-3">
+                        <input class="btn btn-primary" type="submit" value="Atualizar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </form>
+</div>
+
+
+{% endblock %}

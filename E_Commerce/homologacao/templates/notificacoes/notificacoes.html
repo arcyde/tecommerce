@@ -1,0 +1,41 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-envelope-o"></i> Notificações</h1>
+        <p>Visualização das notificações recebidas</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Notificações</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <form class="form-horizontal" method="POST">
+        {% for dados in notificacoes %}
+        <div class="card">
+            <div class="card-header">
+                {{ dados[1] }} - {{ dados[4] }}
+                <a href="/painelAdmin/notificacoes/removerNotificacao?idNotificacao={{ dados[0] }}" style="float: right;">Deletar notificação</a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ dados[2] }}</h5>
+                <p class="card-text">{{ dados[3] }}</p>
+            </div>
+        </div>
+        <br>
+        {% else%}
+        <div class="alert alert-warning" role="alert">Você não possui notificações!</div>
+        {% endfor %}
+    </form>
+</div>
+
+
+{% endblock %}

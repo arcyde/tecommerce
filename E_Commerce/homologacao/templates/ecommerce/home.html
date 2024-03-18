@@ -1,0 +1,71 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i> Produtos</h1>
+        <p>Listagem dos produtos disponíveis</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Principal</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+
+
+    <h3 class="tile-title">Todos os produtos</h3>
+
+    <table class="table table-bordered ">
+        {% for data in dadosItens %}
+
+
+        <thead>
+
+            <tr id="productName">
+                {% for row in data %}
+                <td style="text-align: center;">
+                    {{row[1]}}
+                </td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tr id="productImage" style="text-align: center;">
+            {% for row in data %}
+            <td>
+                <a href="/descricaoProduto?idProduto={{row[0]}}">
+                    <img src={{ url_for('.static', filename='uploads/' + row[4]) }} id="itemImage" style="height: 150px; width:100px" />
+                </a>
+            </td>
+            {% endfor %}
+
+        </tr>
+
+
+        <tr id="productPrice">
+            {% for row in data %}
+            {% if row[6] == 'T' %}
+            <td style="text-align: center;">
+                R${{row[3]}}
+            </td>
+            {% else %}
+            <td style="text-align: center;">
+                Valor variável
+            </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+
+        {% endfor %}
+    </table>
+
+
+</div>
+
+{% endblock %}

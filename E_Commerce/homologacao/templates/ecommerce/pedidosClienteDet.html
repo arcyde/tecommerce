@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-bag"></i> Pedidos</h1>
+        <p>Visualização e edição dos pedidos cadastrados</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="{{url_for('.historicoPedidos')}}">Meus Pedidos</a></li>
+        <li class="breadcrumb-item"><a href="#">Detalhes</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    {% for dados in dados_venda %}
+    <h3 class="tile-title">Dados do pedido</h3>
+    <br />
+    <div class="tile-body">
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Código</label>
+            <div class="col-md-1">
+                <input class="form-control" disabled value="{{ dados[0] }}">
+            </div>
+            <label class="control-label col-md-1">Cliente</label>
+            <div class="col-md-4">
+                <input class="form-control" disabled value="{{ dados[2] }}">
+            </div>
+
+            <label class="control-label col-md-1">Situação</label>
+            <div class="col-md-4">
+                <input class="form-control" disabled value="{{ dados[11] }}">
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <label class="control-label col-md-1">Data / Hora</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled value="{{ dados[12] }}">
+            </div>
+
+            <label class="control-label col-md-1">Subtotal</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled value="R$ {{ dados[7] }}">
+            </div>
+
+            <label class="control-label col-md-1">Total</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled value="R$ {{ dados[8] }}">
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <label class="control-label col-md-2">Observações</label>
+            <div class="col-md-12">
+                <textarea class="form-control" name="OBS" disabled rows="4" placeholder="Observações">{{ dados[9] }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+        </div>
+        <h3 class="tile-title">Forma de pagamento</h3>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered" id="tabPreco" name="tabPreco">
+                    <tr>
+                        <th>Forma de Pagamento</th>
+                        <th>Taxas {% if dados[5] != 0 %} ({{ dados[5] }}%) {% endif %}</th>
+                        <th>Acréscimos {% if  dados[6] != 0 %} ({{ dados[6] }}%) {% endif %}</th>
+                        <th>Observações</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>{{ dados_pgto[0] }}</td>
+                            <td>R$ {{ dados_pgto[1] }}</td>
+                            <td>R$ {{ dados_pgto[2] }}</td>
+                            <td>{{ dados_pgto[3] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group row">
+        </div>
+        <h3 class="tile-title">Produtos</h3>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered" id="tabPreco" name="tabPreco">
+                    <tr>
+                        <th>Produto</th>
+                        <th>Valor individual</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>Observações</th>
+                    </tr>
+                    <tbody>
+                        {% for dados in dados_prod %}
+                        <tr>
+                            <td>{{ dados[2] }}</td>
+                            <td>R$ {{ dados[3] }}</td>
+                            <td>{{ dados[4] }}</td>
+                            <td class="vlrTot">R$ {{ dados[5] }}</td>
+                            <td>{{ dados[6] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group row">
+        </div>
+        <h3 class="tile-title">Histórico</h3>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered" id="tabPreco" name="tabPreco">
+                    <tr>
+                        <th>Situação</th>
+                        <th>Data / Hora</th>
+                        <th>Observações</th>
+                    </tr>
+                    <tbody>
+                        {% set count = namespace(value=0) %}
+                        {% for dados in dados_hist %}
+                        <tr>
+                            <td>{{ dados[2] }}</td>
+                            <td>{{ dados[3] }}</td>
+                            {% if (dados[5] == None) and (dados[6] == None) %}
+                            <td>{{ dados[4] }}</td>
+                            {% set count.value = count.value + 1 %}
+                            {% elif (dados[6] != None) and (dados[5] == None) %}
+                            <td style="text-align: center">
+                                Linha digitável do boleto:
+                                <br><br>
+                                {{histBol[count.value][2]}}
+                            </td>
+                            {% set count.value = count.value + 1 %}
+                            {% elif (dados[5] != None) and (dados[6] == None) %}
+                            <td style="text-align: center">
+                                Escolha uma das formas abaixo:
+                                <br><br>
+                                Código para o Pix Copia e Cola:
+                                <br> {{histPix[count.value][2]}} <br>
+                                <br>
+                                URL de visualização do pagamento pelo banco:
+                                <br> <a href="{{histPix[count.value][3]}}">{{histPix[count.value][3]}}</a> <br>
+                                <br>
+                                Aponte a câmera do aplicativo de pagamento para o QR Code:
+                                <br> <img src={{ url_for('.static', filename='qrcode/' + histPix[count.value][4]) }} id="itemImage" style="height: 250px; width:250px" />
+                            </td>
+                            {% set count.value = count.value + 1 %}
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+        {% endblock %}

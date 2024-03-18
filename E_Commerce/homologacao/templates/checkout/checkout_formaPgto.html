@@ -1,0 +1,61 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-cart"></i> Checkout</h1>
+        <p>Seleção do método de pagamento</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <form style="display: inline" method="POST">
+        <div class="control-label col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Selecionar forma de pagamento
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        {% if lstFormaPgto|length > 0 %}
+                        {% for dados in lstFormaPgto %}
+                        <div class="animated-radio-button">
+                            <label>
+                                <input type="radio" name="selectFormaPgto" required value="{{dados[0]}}"><span class="label-text">{{dados[1]}}</span>
+                            </label>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>Nenhuma forma de pagamento configurada!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        {% if lstFormaPgto|length > 0 %}
+        <div class="input-group-prepend">
+            <div class="control-label col-md-10">
+            </div>
+
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="avancaDet">Avançar</button>
+            </div>
+
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+</div>
+        {% endblock %}

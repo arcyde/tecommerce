@@ -1,0 +1,118 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-bullseye"></i> Visualizar</h1>
+        <p>Visualização de cliente específico</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeCliente') }}">Clientes</a></li>
+        <li class="breadcrumb-item"><a href="#">Visualizar Cliente</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+
+<div class="tile">
+    {% for dados in dados_cli %}
+    <h3 class="tile-title">
+        <form action="{{ url_for ('.exibeVendas', idCliente=dados[0]) }}"><span>Cliente<span><button class="btn btn-primary" style="float: right;"><i class="fa fa-fw fa-money"></i>Pedidos cadastrados</button></form>
+
+    </h3>
+    <br />
+    <div class="tile-body">
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Código</label>
+            <div class="col-md-1">
+                <input class="form-control" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+            </div>
+
+            <label class="control-label col-md-1">Nome</label>
+            <div class="col-md-6">
+                <input class="form-control" disabled type="text" placeholder="Categoria" value="{{ dados[3] }} {{ dados[4] }}">
+            </div>
+
+            <label class="control-label col-md-1">Dt. Cad.</label>
+            <div class="col-md-2">
+                <input class="form-control" disabled type="text" placeholder="Dt. Cad." value="{{ dados[15] }}">
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">E-mail</label>
+            <div class="col-md-7">
+                <input class="form-control" disabled type="text" placeholder="E-mail" value="{{ dados[2] }}">
+            </div>
+
+            <label class="control-label col-md-1">CPF</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled type="text" placeholder="CPF" value="{{ dados[5] }}">
+            </div>
+
+
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Endereço</label>
+            <div class="col-md-7">
+                <input class="form-control" disabled type="text" placeholder="Endereço" value="{{ dados[6] }}">
+            </div>
+
+            <label class="control-label col-md-1">Bairro</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled type="text" placeholder="Bairro" value="{{ dados[7] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Cidade</label>
+            <div class="col-md-5">
+                <input class="form-control" disabled type="text" placeholder="Cidade" value="{{ dados[9] }}">
+            </div>
+
+            <label class="control-label col-md-1">Estado</label>
+            <div class="col-md-2">
+                <input class="form-control" disabled type="text" placeholder="Estado" value="{{ dados[10] }}">
+            </div>
+
+            <label class="control-label col-md-1">CEP</label>
+            <div class="col-md-2">
+                <input class="form-control" disabled type="text" placeholder="CEP" value="{{ dados[8] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Telefone</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled type="text" placeholder="Telefone" value="{{ dados[11] }}">
+            </div>
+
+            <label class="control-label col-md-1">Celular</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled type="text" placeholder="Celular" value="{{ dados[12] }}">
+            </div>
+
+            <label class="control-label col-md-1">Tipo</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled type="text" placeholder="Celular" value="{{ dados[13] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            
+        </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

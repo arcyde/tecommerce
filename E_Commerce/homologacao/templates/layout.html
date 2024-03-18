@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{nomeLoja}}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ url_for('.static', filename='uploads/' + logomarca) }}" />
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='/css/main.css') }}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            height: 45px;
+            color: #fff;
+            line-height: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 14px;
+            background: #292929;
+            z-index: 120;
+            cursor: pointer;
+            border-radius: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .allow-button {
+            height: 20px;
+            width: 104px;
+            color: #fff;
+            font-size: 12px;
+            line-height: 10px;
+            border-radius: 3px;
+            border: 1px solid green;
+            background-color: green
+        }
+        </style>
+</head>
+<body class="app sidebar-mini">
+    <!-- Navbar-->
+    <header class="app-header">
+        <a class="app-header__logo" href="{{url_for('.home')}}">{{nomeLoja}}</a>
+        <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+        <!-- Navbar Right Menu-->
+        <ul class="app-nav">
+            <li class="app-search">
+                <form method="GET" action="{{url_for('.pesquisaQuery')}}">
+                    <input class="app-search__input" type="search" name="q" placeholder="Procurar">
+                    <button class="app-search__button"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
+            <li><a class="app-nav__item" href="{{url_for('.carrinho')}}"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
+
+            <!-- User Menu-->
+            <li class="dropdown">
+                <a class="app-nav__item" style="text-decoration: none;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;{{nome}}</a>
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                    {% if autenticado %}
+                    <li><a class="dropdown-item" href="{{url_for('.historicoPedidos')}}"><i class="fa fa-shopping-bag  fa-lg"></i> Meus Pedidos</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('.perfil')}}"><i class="fa fa-cog fa-lg"></i> Meu Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('.logout')}}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{{url_for('.login')}}"><i class="fa fa-sign-out fa-lg"></i> Login</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('.registrar')}}"><i class="fa fa-sign-in fa-lg"></i> Registrar</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    </header>
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+        <ul class="app-menu">
+            <li class="treeview">
+                <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label"> Categorias</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                <ul class="treeview-menu">
+                    {% for row in dadosCategorias %}
+                    <li><a class="treeview-item" href="/exibirCategoria?idCategoria={{row[0]}}"><i class="icon fa fa-circle-o"></i> {{row[1]}}</a></li>
+                    {% endfor %}
+                    <li><a class="treeview-item" href="{{url_for('.home')}}"><i class="icon fa fa-circle-o"></i> Todos os produtos</a></li>
+                </ul>
+            </li>
+            <a class="app-menu__item" href="{{url_for('.carrinho')}}"><i class="app-menu__icon fa fa-shopping-cart"></i><span class="app-menu__label"> Carrinho</span></a>
+            {% if ativa_referencia == 'SIM' %}
+            <a class="app-menu__item" href="{{url_for('.referencias')}}"><i class="app-menu__icon fa fa-group"></i><span class="app-menu__label"> Referências</span></a>
+            {% endif %}
+            <li class="treeview">
+                <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-lock"></i><span class="app-menu__label"> Políticas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a class="treeview-item" href="{{url_for('.politicasCookies')}}"><i class="icon fa fa-circle-o"></i> Política de Cookies</a></li>
+                    <li><a class="treeview-item" href="{{url_for('.politicasPrivacidade')}}"><i class="icon fa fa-circle-o"></i> Política de Privacidade</a></li>
+                </ul>
+            </li>
+            {% if tipoUser== 'A' %}
+            <li class="treeview">
+                <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-user-secret "></i><span class="app-menu__label"> Administrador</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a class="treeview-item" href="{{url_for('.admin')}}"><i class="icon fa fa-circle-o"></i> Painel</a></li>
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+    </aside>
+
+    <main class="app-content">
+
+        {% block content %}{% endblock %}
+
+
+        <footer class="text-center text-white" style="background-color: #f1f1f1;">
+            <!-- Grid container -->
+            <div class="container pt-4">
+                <!-- Section: Social media -->
+                <section class="mb-4">
+                    {% if facebook != '' %}
+                    <!-- Facebook -->
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://facebook.com/{{facebook}}"
+                       target="_blank"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fa fa-facebook-f"></i>
+                    </a>
+                    {% endif %}
+                    {% if twitter != '' %}
+                    <!-- Twitter -->
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://twitter.com/{{twitter}}"
+                       target="_blank"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    {% endif %}
+                    {% if instagram != '' %}
+                    <!-- Instagram -->
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://www.instagram.com/{{instagram}}"
+                       target="_blank"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    {% endif %}
+                    {% if linkedin != '' %}
+                    <!-- Linkedin -->
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://www.linkedin.com/in/{{linkedin}}"
+                       target="_blank"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                    {% endif %}
+                    {% if whatsapp != '' %}
+                    <!-- Whatsapp -->
+                    <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+                       href="https://api.whatsapp.com/send?phone={{whatsapp}}"
+                       target="_blank"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fa fa-whatsapp"></i>
+                    </a>
+                    {% endif %}
+                </section>
+                <!-- Section: Social media -->
+            </div>
+            <!-- Grid container -->
+            <!-- Copyright -->
+            <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2021 Copyright:
+                <a class="text-dark" target="_blank" href="https://www.linkedin.com/in/nathan-oliveira77">Arcyde</a>
+                <!--<a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</!a>-->
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </main>
+    {% if status_consent != True %}
+    <div class="cookie-consent">
+        <span>Este site utiliza cookies para armazenamento de dados e sessão. Veja nossa<a href="{{url_for('.politicasCookies')}}" class="ml-1 text-decoration-none">Política de cookies</a> </span>
+        <div class=" ml-2 d-flex align-items-center justify-content-center g-2"> <button class="allow-button">Aceitar</button></div>
+    </div>
+    {% endif %}
+    <!-- Essential javascripts for application to work-->
+    <script src="{{ url_for('.static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('.static', filename='js/plugins/pace.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/chart.js') }}"></script>
+    <script type="text/javascript">$('#tabCad').DataTable({ "order": [] });</script>
+
+    {% if status_consent != True %}
+    <script>
+        $(document).ready(function () {
+            $(".allow-button").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{url_for('.consentCookie')}}",
+                    success: function (data) {
+                        $(".cookie-consent").hide();
+                    }
+                });
+            });
+            
+        });
+    </script>
+    {% endif %}
+
+    {% if dadosProd is defined %}
+    <script>
+          $(document).on('input', '#customRange3', function () {
+              $('#textInput').html($(this).val());
+
+              var qtd = $("#textInput").text();
+              var dados = [{ "data": [{{ dadosProd[0][0]}}, qtd]}];
+              $.ajax({
+                  type: "POST",
+                  url: "{{url_for('.attVlrCart')}}",
+                  data: JSON.stringify(dados),
+                  contentType: "application/json",
+                  dataType: 'json',
+                  success: function (result) {
+                      $('#vlrProd').text('R$ ' + ((qtd * result).toFixed(2)));
+                  }
+              });
+          });
+    </script>
+    {% endif %}
+
+    {% if precoTotal is defined %}
+    <script>
+    $(function () {
+        dados = [{ "data": [{{ precoTotal[0][0] }}, qtd]}];
+              $.ajax({
+                  type: "POST",
+                  url: "{{url_for('.attVlrCart')}}",
+                  data: JSON.stringify(dados),
+                  contentType: "application/json",
+                  dataType: 'json'
+              });
+          });
+    </script>
+    {% endif %}
+
+    {% if taxas is defined or acrescimo is defined or total is defined %}
+    <script>
+          var acres = {{ calcAc }};
+          var txs = {{ calcTx }};
+          var sub = {{ subtotal }};
+          var total = {{ total }};
+          $('#vlrAc').html('R$ ' + acres.toFixed(2));
+          $('#vlrTx').html('R$ ' + txs.toFixed(2));
+          $('#vlrSub').html('R$ ' + sub.toFixed(2));
+          $('#vlrTot').html('R$ ' + total.toFixed(2));
+    </script>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+﻿{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-line-chart"></i> Visão Geral</h1>
+        <p>Visão geral dos dados do faturamento do e-commerce</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Visão Geral</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <div class="form-group row" style="margin-left: auto; margin-right: auto ">
+
+
+        <div class="control-label col-md-4" style="display: inline-block; margin-left: auto; margin-right: auto ">
+            <div class="card text-white bg-success mb-3" style="max-width: 20rem; margin-left: auto; margin-right: auto ">
+                <div class="card-body" style="text-align: center;">
+                    <h5 class="card-title">Recebido hoje</h5>
+                    <p class="card-text" style="font-size: 25px">R$ {{vendasDia}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-label col-md-4" style="display: inline-block;">
+            <div class="card text-white bg-info mb-3" style="max-width: 20rem; margin-left: auto; margin-right: auto">
+                <div class="card-body" style="text-align: center; ">
+                    <h5 class="card-title">Recebido no mês</h5>
+                    <p class="card-text" style="font-size: 25px">R$ {{vendasMes}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-label col-md-4" style="display: inline-block;">
+            <div class="card text-white bg-info mb-3" style="max-width: 20rem; margin-left: auto; margin-right: auto">
+                <div class="card-body" style="text-align: center; background-color: #6495ED ">
+                    <h5 class="card-title">A receber no mês</h5>
+                    <p class="card-text" style="font-size: 25px">R$ {{receberMes}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="tile">
+                <h3 class="tile-title">Vendas por mês</h3>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="tile">
+                <h3 class="tile-title">Valores recebidos / a receber por mês</h3>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    {% endblock %}

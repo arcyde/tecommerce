@@ -1,0 +1,60 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Produtos</h1>
+        <p>Visualização do produto selecionado</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Principal</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+
+    <div class="form-group row" style="text-align: center;">
+
+        {% for row in dadosProd %}
+
+        <label class="control-label col-md-12">{{row[1]}}</label>
+        <label class="control-label col-md-12">{{row[3]}}</label>
+        <p class="control-label col-md-12"></p>
+
+
+        <div class="col-md-6">
+            <img src={{ url_for('.static', filename='uploads/' + row[4]) }} id="itemImage" style="height: 250px; width:200px" />
+        </div>
+
+        <div class="col-md-4">
+            <form method="post">
+                <input type="text" class="form-control" name="OBS" required min="0" placeholder="Personagem" />
+                <br>
+                <p>&nbsp;Quantidade:</p>
+
+                <p id="textInput">0</p>
+
+                <input type="range" class="form-control-range" id="customRange3" name="rangeInput" min="0" max="{{row[5]}}" step="{{row[6]}}" value="0">
+
+                <br>
+                <p id="vlrProd"></p>
+
+                {% if qtdMax|int != 0 %}
+                <button class="form-control" type="submit">Comprar</button>
+                {% else %}
+                <button class="form-control">Produto Indiponível</button>
+                {% endif %}
+            </form>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+    {% endblock %}

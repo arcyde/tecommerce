@@ -1,0 +1,74 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-bullseye"></i> Tabela de Preços</h1>
+        <p>Visualização de tabela de preço específica</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeTabPreco') }}">Tabela de Preços</a></li>
+        <li class="breadcrumb-item"><a href="#">Visualizar Tabela de Preços</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    {% for dados in dados_tabPreco %}
+    <h3 class="tile-title">Tabela de preços</h3>
+    <br />
+    <div class="tile-body">
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Código</label>
+            <div class="col-md-1">
+                <input class="form-control" disabled value="{{ dados[0] }}">
+            </div>
+            <label class="control-label col-md-2">Produto</label>
+            <div class="col-md-3">
+                <input class="form-control" disabled value="{{ dados[1] }}">
+            </div>
+
+            <label class="control-label col-md-2">Situação</label>
+            <div class="col-md-2">
+                <input class="form-control" disabled value="{{ dados[2] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered" id="tabPreco" name="tabPreco">
+                    <thead>
+                        <tr>
+                            <th>De</th>
+                            <th>Até</th>
+                            <th>Valor individual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dados in dados_faixa %}
+                        <tr>
+                            <td>{{ dados[1] }}</td>
+                            <td>{{ dados[2] }}</td>
+                            <td>{{ dados[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% for dados in conteudo %}
+<li>
+    <a class="app-notification__item" href="{% if dados[9] == None %} javascript:; {% else %} /painelAdmin/financeiro/vendas/visualizar/{{dados[9]}} {% endif %}">
+        <span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-{{ dados[7] }}"></i><i class="fa fa-{{ dados[5] }} fa-stack-1x fa-inverse"></i></span></span>
+        <div>
+            <p class="app-notification__message">{{ dados[3] }}</p>
+            <p class="app-notification__meta">{{ dados[4] }}</p>
+        </div>
+    </a>
+</li>
+{% endfor %}

@@ -1,0 +1,6 @@
+cryptography==40.0.2
+Flask==2.2.3
+pynubank==2.25.0
+python_dateutil==2.8.2
+pytz==2023.3
+Werkzeug==2.2.3

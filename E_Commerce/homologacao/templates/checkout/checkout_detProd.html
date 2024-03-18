@@ -1,0 +1,106 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-cart"></i> Checkout</h1>
+        <p>Detalhamento dos produtos e valores</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <form style="display: inline" method="POST">
+        <div class="control-label col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Detalhes da compra
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-bordered" id="tabCad">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor</th>
+                                    <th>Total</th>
+                                </tr>
+                            <tbody>
+                                {% for dados in lstProdCart %}
+                                <tr>
+                                    {% if idPedido == None or idPedido == '' %}
+                                    <td>{{ dados[2] }} {% if dados[6] != '' %} -> {{ dados[6] }} {% endif %}</td>
+                                    {% else %}
+                                    <td>{{ dados[1] }} {% if dados[6] != '' %} -> {{ dados[6] }} {% endif %}</td>
+                                    {% endif %}
+                                    <td>{{ dados[4] }}</td>
+                                    <td>{{ dados[2] }}</td>
+                                    <td>R$ {{ dados[5] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot style="white-space: nowrap; width: 1%">
+                                <tr>
+                                    <td style="border-right: 0px solid;"></td>
+                                    <td style="border-right: 0px solid; border-left: 0px solid; "></td>
+                                    <td style="border-left: 0px solid;"><b>Subtotal</b></td>
+                                    <td id="vlrSub">R$ {{subtotal}}</td>
+                                </tr>
+                                {% if taxas > 0 %}
+                                <tr>
+                                    <td style="border-right: 0px solid;"></td>
+                                    <td style="border-right: 0px solid; border-left: 0px solid; "></td>
+                                    <td style="border-left: 0px solid;"><b>Taxas ({{ taxas }}%)</b></td>
+                                    <td id="vlrTx"></td>
+                                </tr>
+                                {% endif %}
+                                {% if acrescimo > 0 %}
+                                <tr>
+                                    <td style="border-right: 0px solid;"></td>
+                                    <td style="border-right: 0px solid; border-left: 0px solid; "></td>
+                                    <td style="border-left: 0px solid;"><b>Acréscimos ({{ acrescimo }}%)</b></td>
+                                    <td id="vlrAc"></td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td style="border-right: 0px solid;"></td>
+                                    <td style="border-right: 0px solid; border-left: 0px solid; "></td>
+                                    <td style="border-left: 0px solid;"><b>Total</b></td>
+                                    <td id="vlrTot"><b>R$ {{total}}</b></td>
+                                </tr>
+                            </tfoot>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="input-group-prepend">
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="voltarPgto">Voltar</button>
+            </div>
+
+            <div class="control-label col-md-8">
+            </div>
+
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="avancaObs">Avançar</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+        {% endblock %}

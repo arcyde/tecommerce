@@ -1,0 +1,326 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Formas de Pagamento</h1>
+        <p>Edição de forma de pagamento específica</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.formasPagamento') }}">Formas de Pagamento</a></li>
+        <li class="breadcrumb-item"><a href="#">Editar Forma de Pagamento</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <form class="form-horizontal" method="POST">
+        {% for dados in dadosFormas %}
+        {% if dados[0] == 1 %}
+
+        <div class="tile-body">
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Código</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+                </div>
+
+                <label class="control-label col-md-2">Nome</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[1] }}">
+                </div>
+
+                <label class="control-label col-md-2">Exibe no Checkout</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeCheck">
+                        {% if dados[4] == 'SIM' %}
+                        <option selected value="True">Sim</option>
+                        <option value="False">Não</option>
+                        {% else %}
+                        <option value="True">Sim</option>
+                        <option selected value="False">Não</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Acréscimo</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="acres" type="text" placeholder="Acréscimo (%)" value="{{ dados[3] }}">
+                </div>
+
+                <label class="control-label col-md-2">Link</label>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">https://picpay.me/</span>
+                        </div>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Nome de usuário no PicPay" name="usrPicPay" value="{{ dados[2] }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Observações</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" name="OBS" rows="4" placeholder="Observações">{{ dados[5] }}</textarea>
+                </div>
+            </div>
+
+            <div class="tile-footer">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-3">
+                        <input class="btn btn-primary" type="submit" value="Atualizar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% elif dados[0] == 2 %}
+
+        <div class="tile-body">
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Código</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+                </div>
+
+                <label class="control-label col-md-2">Nome</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[1] }}">
+                </div>
+
+                <label class="control-label col-md-2">Exibe no Checkout</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeCheck">
+                        {% if dados[2] == 'T' %}
+                        <option selected value="True">SIM</option>
+                        <option value="False">NÃO</option>
+                        {% else %}
+                        <option value="True">SIM</option>
+                        <option selected value="False">NÃO</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Celular</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="tel" type="text" placeholder="Celular" value="{{ dados[3] }}">
+                </div>
+
+                <label class="control-label col-md-2">CPF</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="cpf" type="text" placeholder="CPF" value="{{ dados[4] }}">
+                </div>
+
+                <label class="control-label col-md-1">E-Mail</label>
+                <div class="col-md-3">
+                    <input class="form-control" name="email" type="text" placeholder="E-mail" value="{{ dados[5] }}">
+                </div>
+            </div>
+
+            <div class="tile-footer">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-3">
+                        <input class="btn btn-primary" type="submit" value="Atualizar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% elif dados[0] == 3 or dados[0] == 4 %}
+
+        <div class="tile-body">
+
+            <div class="form-group row">
+                <label class="control-label col-md-1">Código</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+                </div>
+
+                <label class="control-label col-md-1">Nome</label>
+                <div class="col-md-4">
+                    <input class="form-control" name="nome" disabled type="text" placeholder="Nome" value="{{ dados[1] }}">
+                </div>
+
+                <label class="control-label col-md-2">Exibe no Checkout</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeCheck">
+                        <option {% if dados[5] == 'T' %} selected {% endif %} value="T">SIM</option>
+                        <option {% if dados[5] == 'F' %} selected {% endif %} value="F">NÃO</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-1">Favorecido</label>
+                <div class="col-md-6">
+                    <input class="form-control" name="favorecido" id="favorecido" type="text" placeholder="Nome Completo / Razão Social" value="{{ dados[14] }}" >
+                </div>
+                <label class="control-label col-md-1">CPF/CNPJ</label>
+                <div class="col-md-4">
+                    <input class="form-control" name="cpfCGC" id="cpfCGC" type="text" placeholder="CPF / CNPJ" value="{{ dados[15] }}" >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-1">Banco</label>
+                <div class="col-md-6">
+                    <select class="form-control" id="demoSelect" name="optBanco">
+                        <optgroup label="Selecionar banco">
+                            <option></option>
+                            {% for dados in lstBancos %}
+                            <option value="{{dados[0]}}">{{dados[0]}} - {{dados[1]}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+
+                <label class="control-label col-md-1">Operação</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="demoSelect2" name="optOperacao">
+                        <optgroup label="Selecionar operação">
+                            <option></option>
+                            {% for dados in lstOp %}
+                            <option value="{{dados[0]}}">{{dados[0]}} - {{dados[1]}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-1">Agência</label>
+                <div class="col-md-2">
+                    <input class="form-control" id="agencia" type="text" placeholder="Agência">
+                </div>
+
+                <label class="control-label col-md-1">Dígito</label>
+                <div class="col-md-1">
+                    <input class="form-control" id="digAgencia" type="text">
+                </div>
+
+                <label class="control-label col-md-1">Conta</label>
+                <div class="col-md-2">
+                    <input class="form-control" id="conta" type="text" placeholder="Conta">
+                </div>
+
+                <label class="control-label col-md-1">Dígito</label>
+                <div class="col-md-1">
+                    <input class="form-control" id="digConta" type="text">
+                </div>
+
+                <div class="col-md-2">
+                    <button class="form-control" id="btnAdd" onclick="addFaixa()">Adicionar</button>
+                </div>
+            </div>
+
+            <div class="form-group row">
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered" id="tabBanco" name="tabBanco">
+                        <thead>
+                            <tr>
+                                <th>Banco</th>
+                                <th>Operação</th>
+                                <th>Agência</th>
+                                <th>Dígito</th>
+                                <th>Conta</th>
+                                <th>Dígito</th>
+                            </tr>
+                        </thead>
+                        <tbody style="width: 100%;">
+                            {% set count = namespace(value=0) %}
+                            {% for dados in dados_lstBanco %}
+                            <tr>
+                                <td>
+                                    <input style="border: none;" type="text" value="{{dados[1]}}" name="cell1_{{ count.value }}" readonly>
+                                </td>
+                                <td>
+                                    <input style="border: none;" type="text" value="{{dados[2]}}" name="cell2_{{ count.value }}" readonly>
+                                </td>
+                                <td>
+                                    <input style="border: none;" type="text" value="{{dados[3]}}" name="cell3_{{ count.value }}">
+                                </td>
+                                <td>
+                                    <input style="border: none; width: 10%" type="text" value="{{dados[4]}}" name="cell4_{{ count.value }}">
+                                </td>
+                                <td>
+                                    <input style="border: none;" type="text" value="{{dados[5]}}" name="cell5_{{ count.value }}">
+                                </td>
+                                <td>
+                                    <input style="border: none; width: 10%" type="text" value="{{dados[6]}}" name="cell6_{{ count.value }}">
+                                </td>
+                            </tr>
+                            {% set count.value = count.value + 1 %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered" id="tabBanco2" name="tabBanco2">
+                        <thead>
+                            <tr>
+                                <th>Favorecido</th>
+                                <th>CPF / CNPJ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set count = namespace(value=0) %}
+                            {% for dados in dados_lstBanco %}
+                            <tr>
+                                <td>
+                                    <input style="border: none; width: 100%;" type="text" value="{{dados[9]}}" name="ocell7_{{ count.value }}">
+                                </td>
+                                <td>
+                                    <input style="border: none;" type="text" value="{{dados[10]}}" name="ocell8_{{ count.value }}">
+                                </td>
+                            </tr>
+                            {% set count.value = count.value + 1 %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-2">
+                    <button style="float: right;" class="form-control" id="btnRem" onclick="remFaixa()">Remover</button>
+                </div>
+            </div>
+
+            <div class="tile-footer">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-3">
+                        <input class="btn btn-primary" type="submit" value="Atualizar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="alert alert-warning" role="alert">Forma de pagamento inexistente :(</div>
+        {% endif %}
+        {% endfor %}
+    </form>
+</div>
+
+
+{% endblock %}

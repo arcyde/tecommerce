@@ -1,0 +1,72 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-cart"></i> Checkout</h1>
+        <p>Preenchimento de dados necessários para cadastro do pedido</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages() %}
+<div class="alert alert-warning" role="alert">{{ message }}</div>
+    {% endfor %}
+
+<div class="tile">
+    <form style="display: inline" method="POST">
+        <div class="control-label col-md-12">
+            <div class="card">
+                {% if tipo_form == 'picpay' %}
+                <div class="card-header">
+                    Informe o nome de usuário do PicPay para identificação do pagamento
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <input class="form-control" required name="usr_picpay" type="text" placeholder="Nome de usuário do PicPay">
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card-header">
+                    Informe seu <b>nome completo</b> para identificação do pagamento
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="control-label col-md-2">Nome</label>
+                        <div class="col-md-4">
+                            <input class="form-control" required name="nome_cli" type="text" placeholder="Nome" value="{{nome}}">
+                        </div>
+
+                        <label class="control-label col-md-2">Sobrenome</label>
+                        <div class="col-md-4">
+                            <input class="form-control" required name="sobrenome_cli" type="text" placeholder="Sobrenome">
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            </div>
+
+        <br>
+
+        <div class="input-group-prepend">
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="voltarPgto">Voltar</button>
+            </div>
+
+            <div class="control-label col-md-8">
+            </div>
+
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="avancaDet">Avançar</button>
+            </div>
+        </div>
+    </form>
+    </div>
+        {% endblock %}

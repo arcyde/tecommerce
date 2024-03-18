@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{nomeLoja}}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="{{ url_for('.static', filename='uploads/' + logomarca) }}" />
+
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='/css/main.css') }}">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+  <body class="app sidebar-mini">
+      <!-- Navbar-->
+      <header class="app-header">
+          <a class="app-header__logo" href="{{url_for('.admin')}}">{{nomeLoja}}</a>
+          <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+          <!-- Navbar Right Menu-->
+          <ul class="app-nav">
+
+              <li class="dropdown">
+                  <a class="app-nav__item" style="text-decoration: none;" href="#" data-toggle="dropdown" aria-label="Show notifications" ><i class="fa fa-bell-o fa-lg"></i>&nbsp;&nbsp;(<span id="totalNotifs">{{ qtdNotifs }}</span>)</a>
+                  <ul class="app-notification dropdown-menu dropdown-menu-right">
+                      {% if qtdNotifs|int == 0 %}
+                      <li class="app-notification__title" id="countNotifs">Você não possui novas notificações.</li>
+                      {% elif qtdNotifs|int == 1 %}
+                      <li class="app-notification__title" id="countNotifs">Você possui {{ qtdNotifs }} nova notificação:</li>
+                      {% else %}
+                      <li class="app-notification__title" id="countNotifs">Você possui {{ qtdNotifs }} novas notificações:</li>
+                      {% endif %}
+
+                      <div class="app-notification__content" id="respTopNotif"></div>
+
+                      <li class="app-notification__footer"><a href="{{url_for('.exibeNotificacao')}}">Visualizar todas as notificações</a></li>
+                  </ul>
+              </li>
+
+              <!-- User Menu-->
+              <li class="dropdown">
+                  <a class="app-nav__item" style="text-decoration: none;" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;{{nome}}</a>
+                  <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                      {% if autenticado %}
+                      <li><a class="dropdown-item" href="{{url_for('.perfil')}}"><i class="fa fa-cog fa-lg"></i> Seu Perfil</a></li>
+                      <li><a class="dropdown-item" href="{{url_for('.logout')}}"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                      {% else %}
+                      <li><a class="dropdown-item" href="{{url_for('.login')}}"><i class="fa fa-sign-out fa-lg"></i> Login</a></li>
+                      {% endif %}
+                  </ul>
+              </li>
+          </ul>
+      </header>
+      <!-- Sidebar menu-->
+      <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+      <aside class="app-sidebar">
+          <ul class="app-menu">
+              {% if tipoUser== 'A' %}
+              <a class="app-menu__item" href="{{url_for('.admin')}}"><i class="app-menu__icon fa fa-line-chart"></i><span class="app-menu__label"> Visão Geral</span></a>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i><span class="app-menu__label"> Cadastro</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.exibeCategoria')}}"><i class="icon fa fa-circle-o"></i> Categorias</a></li>
+                      <li><a class="treeview-item" href="{{url_for('.exibeCliente')}}"><i class="icon fa fa-circle-o"></i> Clientes</a></li>
+                      <li><a class="treeview-item" href="{{url_for('.exibeProduto')}}"><i class="icon fa fa-circle-o"></i> Produtos</a></li>
+                      <li><a class="treeview-item" href="{{url_for('.exibeTabPreco')}}"><i class="icon fa fa-circle-o"></i> Tabela de Preços</a></li>
+                  </ul>
+              </li>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-money"></i><span class="app-menu__label"> Financeiro</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.exibePedidos')}}"><i class="icon fa fa-circle-o"></i> Pedidos</a></li>
+                      <li><a class="treeview-item" href="{{url_for('.exibeVendas')}}"><i class="icon fa fa-circle-o"></i> Vendas</a></li>
+                  </ul>
+              </li>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-credit-card"></i><span class="app-menu__label"> Formas de Pagamento</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.formasPagamento')}}"><i class="icon fa fa-circle-o"></i> Visualizar</a></li>
+                  </ul>
+              </li>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-sitemap"></i><span class="app-menu__label"> Integrações</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.integracoes')}}"><i class="icon fa fa-circle-o"></i> Visualizar</a></li>
+                  </ul>
+              </li>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart"></i><span class="app-menu__label"> E-Commerce</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.exibeReferencias')}}"><i class="icon fa fa-circle-o"></i> Referências</a></li>
+                      <li><a class="treeview-item" target="_blank" href="{{url_for('.home')}}"><i class="icon fa fa-circle-o"></i> Visualizar</a></li>
+                  </ul>
+              </li>
+              <a class="app-menu__item" href="{{url_for('.exibeNotificacao')}}"><i class="app-menu__icon fa fa-envelope-o"></i><span class="app-menu__label"> Notificações</span></a>
+              <li class="treeview">
+                  <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cogs"></i><span class="app-menu__label"> Parâmetros</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                      <li><a class="treeview-item" href="{{url_for('.paramsEcommerce')}}"><i class="icon fa fa-circle-o"></i> Geral</a></li>
+                      <li><a class="treeview-item" href="{{url_for('.paramsSocial')}}"><i class="icon fa fa-circle-o"></i> Redes Sociais</a></li>
+
+                  </ul>
+              </li>
+              {% endif %}
+          </ul>
+      </aside>
+      <main class="app-content">
+          {% block content %}{% endblock %}
+      </main>
+      <!-- Essential javascripts for application to work-->
+      <script src="{{ url_for('.static', filename='js/jquery-3.3.1.min.js') }}"></script>
+      <script src="{{ url_for('.static', filename='js/popper.min.js') }}"></script>
+      <script src="{{ url_for('.static', filename='js/bootstrap.min.js') }}"></script>
+      <script src="{{ url_for('.static', filename='js/main.js') }}"></script>
+      <script src="{{ url_for('.static', filename='js/plugins/pace.min.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/dataTables.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/bootstrap-datepicker.min.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('.static', filename='js/plugins/chart.js') }}"></script>
+      <script type="text/javascript">$('#tabCad').DataTable({ "order": [] });</script>
+      <script type="text/javascript">$('#tabCad2').DataTable({ "order": [] });</script>
+      {% if dados_lstBanco is defined %}
+      <script>
+          function remFaixa() {
+              document.getElementById("tabBanco").deleteRow(-1);
+              document.getElementById("tabBanco2").deleteRow(-1);
+          }
+      </script>
+
+      <script>
+          var c1 = 0;
+          var c2 = 0;
+          var c3 = 0;
+          var c4 = 0;
+          var c5 = 0;
+          var c6 = 0;
+          var c7 = 0;
+          var c8 = 0;
+
+          function addFaixa() {
+              var table = document.getElementById("tabBanco");
+              var table2 = document.getElementById("tabBanco2");
+
+              var numAgencia = document.getElementById("agencia");
+              var numDigAgencia = document.getElementById("digAgencia");
+              var numConta = document.getElementById("conta");
+              var numDigConta = document.getElementById("digConta");
+              var nmBanco = document.getElementById("demoSelect");
+              var numOp = document.getElementById("demoSelect2");
+              var favNome = document.getElementById("favorecido");
+              var cpfCNPJ = document.getElementById("cpfCGC");
+
+              if (document.getElementById('demoSelect').value != "" || document.getElementById('demoSelect2').value != "" || document.getElementById('agencia').value != "" || document.getElementById('conta').value != "") {
+                  var row = table.insertRow(-1);
+                  var row2 = table2.insertRow(-1); 
+                  var cell1 = row.insertCell(0);
+                  var cell2 = row.insertCell(1);
+                  var cell3 = row.insertCell(2);
+                  var cell4 = row.insertCell(3);
+                  var cell5 = row.insertCell(4);
+                  var cell6 = row.insertCell(5);
+                  var cell7 = row2.insertCell(0);
+                  var cell8 = row2.insertCell(1);
+
+                  var inc1 = table.rows.length + 4;
+                  var inc2 = table.rows.length + 5;
+                  var inc3 = table.rows.length + 6;
+                  var inc4 = table.rows.length + 7;
+                  var inc5 = table.rows.length + 8;
+                  var inc6 = table.rows.length + 9;
+                  var inc7 = table2.rows.length + 2;
+                  var inc8 = table2.rows.length + 3;
+
+                  cell1.innerHTML = "<input style='border: none;' type='text' value='" + nmBanco.value + "' name=cell" + inc1 + "_" + c1.toString() + " readonly> ";
+                  cell2.innerHTML = "<input style='border: none;' type='text' value='" + numOp.value + "' name=cell" + inc2 + "_" + c2.toString() + " readonly> ";
+                  cell3.innerHTML = "<input style='border: none;' type='text' value='" + numAgencia.value + "' name=cell" + inc3 + "_" + c3.toString() + "> ";
+                  cell4.innerHTML = "<input style='border: none; width: 10%' type='text' value='" + numDigAgencia.value + "' name=cell" + inc4 + "_" + c4.toString() + "> ";
+                  cell5.innerHTML = "<input style='border: none;' type='text' value='" + numConta.value + "' name=cell" + inc5 + "_" + c5.toString() + "> ";
+                  cell6.innerHTML = "<input style='border: none; width: 10%' type='text' value='" + numDigConta.value + "' name=cell" + inc6 + "_" + c6.toString() + "> ";
+                  cell7.innerHTML = "<input style='border: none; width: 100%' type='text' value='" + favNome.value + "' name=ocell" + inc7 + "_" + c7.toString() + "> ";
+                  cell8.innerHTML = "<input style='border: none;' type='text' value='" + cpfCNPJ.value + "' name=ocell" + inc8 + "_" + c8.toString() + "> ";
+
+                  c1++;
+                  c2++;
+                  c3++;
+                  c4++;
+                  c5++;
+                  c6++;
+                  c7++;
+                  c8++;
+
+                  nmBanco.value = ''
+                  numOp.value = ''
+                  numAgencia.value = ''
+                  numDigAgencia.value = ''
+                  numConta.value = ''
+                  numDigConta.value = ''
+                  favNome.value = ''
+                  cpfCNPJ.value = ''
+
+              } else {
+                  alert("Gentileza preencher os campos!")
+              }
+          }
+      </script>
+      <script>
+          $(document).ready(function () {
+              $("#btnAdd").click(function (event) {
+                  event.preventDefault();
+              });
+          });
+      </script>
+      <script>
+          $(document).ready(function () {
+              $("#btnRem").click(function (event) {
+                  event.preventDefault();
+              });
+          });
+      </script>
+      {% endif %}
+
+      {% if data is defined or dados_tabPreco is defined %}
+      <script>
+          function remFaixa() {
+              document.getElementById("tabPreco").deleteRow(-1);
+          }
+      </script>
+
+      <script>
+          var c1 = 0;
+          var c2 = 0;
+          var c3 = 0;
+
+          function addFaixa() {
+              var table = document.getElementById("tabPreco");
+
+              var qtdDe = document.getElementById("qtdDe");
+              var qtdPara = document.getElementById("qtdPara");
+              var indVlr = document.getElementById("vlrInd");
+
+              if (document.getElementById('vlrInd').value != "") {
+                  var row = table.insertRow(-1);
+                  var cell1 = row.insertCell(0);
+                  var cell2 = row.insertCell(1);
+                  var cell3 = row.insertCell(2);
+
+                  var inc1 = table.rows.length + 1;
+                  var inc2 = table.rows.length + 2;
+                  var inc3 = table.rows.length + 3;
+
+                  cell1.innerHTML = "<input style = 'border: none' type='text' value='" + qtdDe.value + "' name=cell" + inc1 + "_" + c1.toString() + " required > ";
+                  cell2.innerHTML = "<input style = 'border: none' type='text' value='" + qtdPara.value + "' name=cell" + inc2 + "_" + c2.toString() + " > ";
+                  cell3.innerHTML = "<input style = 'border: none' type='text' value='" + indVlr.value + "' name=cell" + inc3 + "_" + c3.toString() + "  required> ";
+                  c1++;
+                  c2++;
+                  c3++;
+
+                  qtdDe.value = parseInt(qtdPara.value) + 1
+                  qtdPara.value = ""
+                  indVlr.value = ""
+              } else {
+                  alert("O campo valor individual deve ser preenchido!")
+              }
+          }
+      </script>
+      <script>
+          $(document).ready(function () {
+              $("#btnAdd").click(function (event) {
+                  event.preventDefault();
+              });
+          });
+      </script>
+      <script>
+          $(document).ready(function () {
+              $("#btnRem").click(function (event) {
+                  event.preventDefault();
+              });
+          });
+      </script>
+      {% endif %}
+
+      {% if vendasDia is defined %}
+      <script type="text/javascript">
+          var data = {
+              labels: {{ nomeMes| safe }},
+              datasets: [
+                  {
+                      label: "Vendas do mês",
+                      fillColor: "rgba(220,220,220,0.2)",
+                      strokeColor: "rgba(220,220,220,1)",
+                      pointColor: "rgba(220,220,220,1)",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(220,220,220,1)",
+                      data: {{ qtdMes| safe }}
+                  }
+              ]
+          };
+
+          var data2 = {
+              labels: {{ nomeMes|safe }},
+              datasets: [
+                  {
+                      label: "Valores recebidos",
+                      fillColor: "rgba(220,220,220,0.2)",
+                      strokeColor: "rgba(220,220,220,1)",
+                      pointColor: "rgba(220,220,220,1)",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(220,220,220,1)",
+                      data: {{ valorRecebidoMes|safe }}
+                  },
+                  {
+                      label: "Valores a receber",
+                      fillColor: "rgba(151,187,205,0.2)",
+                      strokeColor: "rgba(151,187,205,1)",
+                      pointColor: "rgba(151,187,205,1)",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(151,187,205,1)",
+                      data: {{ valorReceberMes|safe }}
+                  }
+              ]
+          };
+          var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+          var lineChart = new Chart(ctxl).Line(data);
+
+          var ctxb = $("#barChartDemo").get(0).getContext("2d");
+          var barChart = new Chart(ctxb).Bar(data2);
+      </script>
+
+      {% endif %}
+
+      <script>
+          $(document).ready(function () {
+              setInterval(getNotifs, 5000)
+              setInterval(countNotifs, 5000)
+
+              function getNotifs() {
+
+                  $.ajax({
+                      url: '/painelAdmin/notificacoes/topNotif',
+                      type: "POST",
+                      success: function (resp) {
+                          $("div#respTopNotif").empty();
+                          $('div#respTopNotif').append(resp.data);
+                      }
+                  });
+
+              };
+
+              function countNotifs() {
+
+                  $.ajax({
+                      url: '/painelAdmin/notificacoes/contaNotif',
+                      type: "POST",
+                      success: function (resp) {
+                          $("#totalNotifs").text(resp.data[0]);
+                          $("#countNotifs").text(resp.data[1]);
+                      }
+                  });
+
+              };
+          });
+
+      </script>
+
+      <script type="application/javascript">
+          $('input[type="file"]').change(function(e){
+              var fileName = e.target.files[0].name;
+              $('#nameFile').html(fileName);
+          });
+      </script>
+
+  </body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-money"></i> Parâmetros</h1>
+            <p>Configurações customizáveis do sistema</p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="#">Parâmetros</a></li>
+            <li class="breadcrumb-item"><a href="#">E-Commerce</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="tabCad">
+                            <thead>
+                                <tr>
+                                    <th>Parâmetro</th>
+                                    <th>Valor</th>
+                                    <th>Categoria</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dados in params %}
+                                <tr>
+                                    <td>{{ dados[1] }}</td>
+                                    <td>{{ dados[2] }}</a></td>
+                                    <td>{{ dados[4] }}</td>
+                                    <td>
+                                        <form style="display: inline" action="{{ url_for ('.visParamsEcommerce', idParametro = dados[0])}}"><button style="background-color: #4CAF50; border: none; border-radius: 25%;" title="Visualizar"><i class="fa fa-search" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+{% endblock %}
+

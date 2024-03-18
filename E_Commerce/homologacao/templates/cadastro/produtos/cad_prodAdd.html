@@ -1,0 +1,120 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Produtos</h1>
+        <p>Adicionar novo produto</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeProduto') }}">Produtos</a></li>
+        <li class="breadcrumb-item"><a href="#">Adicionar Produtos</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+
+<div class="tile">
+    <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+
+        <h3 class="tile-title">Produtos</h3>
+        <br />
+        <div class="tile-body">
+
+            <div class="form-group row">
+
+                <label class="control-label col-md-2">Produto</label>
+                <div class="col-md-10">
+                    <input class="form-control" required name="prod" type="text" placeholder="Produto">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Descrição</label>
+                <div class="col-md-6">
+                    <input class="form-control" required name="desc" type="text" placeholder="Descrição">
+                </div>
+
+                <label class="control-label col-md-2">Quantidade</label>
+                <div class="col-md-2">
+                    <input class="form-control" required name="qtd" type="text" placeholder="Quantidade">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Valor</label>
+                <div class="col-md-2">
+                    <input class="form-control" required name="vlr" type="text" placeholder="Valor">
+                </div>
+
+                <label class="control-label col-md-2">Categoria</label>
+                <div class="col-md-6">
+                    <select class="form-control" name="categ" id="idCateg">
+                        {% for categorias in dados_categ %}
+                        <option value="{{ categorias[0] }}">{{ categorias[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Incremento qtd.</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="incremento" type="number" placeholder="Incremento">
+                </div>
+
+                <label class="control-label col-md-2">Exibe na WEB</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeWEB">
+                        <option value="SIM">Sim</option>
+                        <option value="NAO">Não</option>
+                    </select>
+                </div>
+
+                <label class="control-label col-md-2">Exibe valor na WEB</label>
+                <div class="col-md-2">
+                    <select class="form-control" name="exibeValorWEB">
+                        <option value="SIM">Sim</option>
+                        <option value="NAO">Não</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="control-label col-md-2">Qtd. máx. p/ Venda</label>
+                <div class="col-md-2">
+                    <input class="form-control" name="qtdMax" type="text" placeholder="Qtd. máxima">
+                </div>
+
+
+                <label class="control-label col-md-2">Imagem</label>
+                <div class="col-md-6">
+                    <div class="custom-file" id="customFile" lang="pt-br">
+                        <input type="file" class="custom-file-input" name="image" id="InputFile" aria-describedby="fileHelp">
+                        <label class="custom-file-label" id="nameFile" for="InputFile">
+                            Selecionar arquivo...
+                        </label>
+                        <small class="form-text text-muted" id="fileHelp">Acrescentar uma imagem para exibição na tela inicial</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile-footer">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-3">
+                        <input class="btn btn-primary" type="submit" value="Inserir" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row user">
+    
+
+    <div class="col-md-12">
+        <div class="profile">
+            <div class="info">
+                <h4>{{dadosPerfil[0][1]}}</h4>
+            </div>
+            <div class="cover-image"></div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="tile p-0">
+            <ul class="nav flex-column nav-tabs user-tabs">
+                <li class="nav-item"><a class="nav-link active" href="#user-settings" data-toggle="tab">Perfil</a></li>
+                <li class="nav-item"><a class="nav-link " href="#user-password" data-toggle="tab">Segurança</a></li>
+                <li class="nav-item"><a class="nav-link " href="#user-pgto" data-toggle="tab">Pagamentos</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="tab-content">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+
+            <div class="tab-pane active" id="user-settings">
+                <div class="tile user-settings">
+                    <h4 class="line-head">Perfil</h4>
+                    {% if dadosPerfil is defined %}
+                    <form name="perfUser" method="POST">
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>Nome</label>
+                                <input class="form-control" type="text" name="nome" value="{{dadosPerfil[0][1]}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Sobrenome</label>
+                                <input class="form-control" type="text" name="sobrenome" value="{{dadosPerfil[0][2]}}">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>CPF</label>
+                                <input class="form-control" type="text" name="cpf" value="{{dadosPerfil[0][3]}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Email</label>
+                                <input class="form-control" type="text" readonly value="{{dadosPerfil[0][4]}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label>Endereco</label>
+                                <input class="form-control" type="text" name="endereco" value="{{dadosPerfil[0][5]}}">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>Bairro</label>
+                                <input class="form-control" type="text" name="bairro" value="{{dadosPerfil[0][6]}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>CEP</label>
+                                <input class="form-control" type="text" name="cep" value="{{dadosPerfil[0][7]}}">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>Cidade</label>
+                                <input class="form-control" type="text" name="cidade" value="{{dadosPerfil[0][8]}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Estado</label>
+                                <input class="form-control" type="text" name="estado" value="{{dadosPerfil[0][9]}}">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>Telefone</label>
+                                <input class="form-control" type="text" name="telefone" value="{{dadosPerfil[0][10]}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Celular</label>
+                                <input class="form-control" type="text" name="celular" value="{{dadosPerfil[0][11]}}">
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit" name="btnSave" value="savePerf"><i class="fa fa-fw fa-lg fa-check-circle"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="user-password">
+
+                <div class="tile user-settings">
+                    <h4 class="line-head">Alterar senha</h4>
+                    <form name="perfPWD" method="POST">
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label>Senha atual</label>
+                                <input class="form-control" type="password" name="PWDA">
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Nova senha</label>
+                                <input class="form-control" type="password" name="PWDN">
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Confirmar nova senha</label>
+                                <input class="form-control" type="password" name="PWDC">
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit" name="btnSave" value="savePWD"><i class="fa fa-fw fa-lg fa-check-circle"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="tab-pane" id="user-pgto">
+                <div class="tile user-settings">
+                    <h4 class="line-head">Dados para Pagamento</h4>
+                    {% if dadosPerfil is defined %}
+                    <form name="pgtoUser" method="POST">
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label>Nome de usuário PicPay</label>
+                                <input class="form-control" type="text" name="usr_pp" value="{{dadosPerfil[0][13]}}">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit" name="btnSave" value="savePgto"><i class="fa fa-fw fa-lg fa-check-circle"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

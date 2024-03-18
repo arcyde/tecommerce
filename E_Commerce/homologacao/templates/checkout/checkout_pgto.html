@@ -1,0 +1,209 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-cart"></i> Checkout</h1>
+        <p>Finalização da conferência e compra</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+          {% endfor %}
+
+<div class="tile">
+    <div class="control-label col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Pagamento via {{nomeForma}}
+            </div>
+            <br>
+            {% if formaPgto | int == 1 %}
+            {% if request.MOBILE %}
+            <div class="col-md-12">
+                <div class="control-label col-md-2">
+                    <a class="form-control" target="_blank" href="http://app.picpay.com/user/{{user}}/{{valorPgto}}" style="text-align: center; text-decoration: none;">Acessar PicPay</a>
+                </div>
+                <br>
+            </div>
+            {% else %}
+            <div class="input-group-prepend" style="justify-content: center;">
+                <div class="control-label col-md-4">
+                    <label></label>
+                </div>
+
+                <div class="control-label col-md-4">
+                    <a class="form-control" target="_blank" href="http://app.picpay.com/user/{{user}}/{{valorPgto}}" style="text-align: center; text-decoration: none;">Acessar PicPay</a>
+                </div>
+
+                <div class="control-label col-md-4">
+                    <label></label>
+                </div>
+            </div>
+            <br>
+            {% endif %}
+
+            {% elif formaPgto | int == 2 %}
+            <div class="form-group row">
+                <div class="col-md-12">
+                    {% if retorno_integ %}
+                    <table class="table table-hover table-bordered" id="tabPix" name="tabPix">
+                        <thead>
+                            <tr>
+                                <th>Data do Pedido</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {{data_hoje}}
+                                </td>
+                                <td style="text-align: center">
+                                    Escolha uma das formas abaixo:
+                                    <br><br>
+                                    Código para o Pix Copia e Cola:
+                                    <br> {{payment_code}} <br>
+                                    <br>
+                                    URL de visualização do pagamento pelo banco:
+                                    <br> <a href="{{urlPgto}}">{{urlPgto}}</a> <br>
+                                    <br>
+                                    Aponte a câmera do aplicativo de pagamento para o QR Code:
+                                    <br> <img src={{ url_for('.static', filename='qrcode/' + qrcode) }} id="itemImage" style="height: 250px; width:250px" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% else %}
+                    <table class="table table-hover table-bordered" id="tabPix" name="tabPix">
+                        <thead>
+                            <tr>
+                                <th>Celular</th>
+                                <th>CPF / CNPJ</th>
+                                <th>E-mail</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dados in dados_pix %}
+                            <tr>
+                                <td>
+                                    {{dados[3]}}
+                                </td>
+                                <td>
+                                    {{dados[4]}}
+                                </td>
+                                <td>
+                                    {{dados[5]}}
+                                </td>
+                                <td>
+                                    R${{valorPgto}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% elif formaPgto | int == 3 or formaPgto | int == 4 %}
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered" id="tabBanco" name="tabBanco">
+                        <thead>
+                            <tr>
+                                <th>Banco</th>
+                                <th>Operação</th>
+                                <th>Agência</th>
+                                <th>Conta</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dados in dados_lstBanco %}
+                            <tr>
+                                <td>
+                                    {{dados[2]}}
+                                </td>
+                                <td>
+                                    {{dados[3]}}
+                                </td>
+                                <td>
+                                    {{dados[4]}}
+                                </td>
+                                <td>
+                                    {{dados[5]}}
+                                </td>
+                                <td>
+                                    R${{valorPgto}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered" id="tabBanco" name="tabBanco">
+                        <thead>
+                            <tr>
+                                <th>Favorecido</th>
+                                <th>CPF / CNPJ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dados in dados_lstBanco %}
+                            <tr>
+                                <td>
+                                    {{dados[6]}}
+                                </td>
+                                <td>
+                                    {{dados[7]}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            {% elif formaPgto | int == 5 %}
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered" id="tabBol" name="tabBol">
+                        <thead>
+                            <tr>
+                                <th>Data do Pedido</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {{data_hoje}}
+                                </td>
+                                <td style="text-align: center">
+                                    Linha digitável do boleto:
+                                    <br><br>
+                                    <br> {{num_bol}} <br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                   
+                    {% endif %}
+                </div>
+                </div>
+        </div>
+        {% endblock %}

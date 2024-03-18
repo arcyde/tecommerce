@@ -1,0 +1,54 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-bullseye"></i> Visualizar</h1>
+        <p>Visualização de categoria específica</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeCategoria') }}">Categorias</a></li>
+        <li class="breadcrumb-item"><a href="#">Visualizar Categorias</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+
+<div class="tile">
+    {% for dados in dados_categ %}
+    <h3 class="tile-title">
+        Categoria
+    </h3>
+    <br />
+    <div class="tile-body">
+
+        <div class="form-group row">
+            <label class="control-label col-md-1">Código</label>
+            <div class="col-md-1">
+                <input class="form-control" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+            </div>
+
+            <label class="control-label col-md-1">Categoria</label>
+            <div class="col-md-6">
+                <input class="form-control" disabled type="text" placeholder="Categoria" value="{{ dados[1] }}">
+            </div>
+
+            <label class="control-label col-md-1">Exibir na WEB</label>
+            <div class="col-md-2">
+                <input class="form-control" disabled type="text" placeholder="Exiber na WEB" value="{{ dados[2] }}">
+            </div>
+
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

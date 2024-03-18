@@ -1,0 +1,136 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-sitemap"></i> Integrações</h1>
+        <p>Configurações de integração</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.integracoes') }}">Integrações</a></li>
+        <li class="breadcrumb-item"><a href="#">Nubank</a></li>
+    </ul>
+</div>
+
+<div class="row user">
+
+    <div class="col-md-3">
+        <div class="tile p-0">
+            <ul class="nav flex-column nav-tabs user-tabs">
+                <li class="nav-item"><a class="nav-link active" href="#user-settings" data-toggle="tab">Dados</a></li>
+                <li class="nav-item"><a class="nav-link " href="#user-params" data-toggle="tab">Parâmetros</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+
+        
+        <div class="tab-content">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+
+            <div class="tab-pane active" id="user-settings">
+                <div class="tile user-settings">
+                    <h4 class="line-head">Dados de Acesso</h4>
+                    {% if dados_integ is defined %}
+                    <form name="perfUser" method="POST" enctype="multipart/form-data">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <label>Diretório do certificado</label>
+                                <div class="custom-file" id="customFile" lang="pt-br">
+                                    <input type="file" class="custom-file-input" name="certDir" id="InputFile" aria-describedby="fileHelp">
+                                    <label class="custom-file-label" id="nameFile" for="InputFile">
+                                        {% if dados_integ[1] != None or dados_integ[1] != '' %} {{dados_integ[1]}} {% else %} Selecionar arquivo... {% endif %}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>CPF</label>
+                                <input class="form-control" type="text" name="cpf">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Senha</label>
+                                <input class="form-control" type="password" name="senha">
+                            </div>
+                        </div>
+
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit" name="btnSave" value="saveInteg"><i class="fa fa-fw fa-lg fa-check-circle"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="user-params">
+
+                <div class="tile user-settings">
+                    <h4 class="line-head">Parâmetros</h4>
+                    <form name="perfPWD" method="POST">
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label>Ativar integração</label>
+                                <select class="form-control" name="ativaInteg">
+                                    <option {% if status_integ=='T' %} selected {% endif %} value="T">SIM</option>
+                                    <option {% if status_integ=='F' %} selected {% endif %} value="F">NÃO</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Propagar PIX</label>
+                                <select class="form-control" name="propagaPix">
+                                    <option {% if dados_integ[4]=='SIM' %} selected {% endif %} value="T">SIM</option>
+                                    <option {% if dados_integ[4]=='NÃO' %} selected {% endif %} value="F">NÃO</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Propagar dados bancários</label>
+                                <select class="form-control" name="verBanc">
+                                    <option {% if dados_integ[5]=='SIM' %} selected {% endif %} value="T">SIM</option>
+                                    <option {% if dados_integ[5]=='NÃO' %} selected {% endif %} value="F">NÃO</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Ativar o método de pagamento por boleto para valores acima de R$ 10,00 (O Nubank cobra R$ 3,00 em caso de pagamento do boleto)</label>
+                                <select class="form-control" name="ativaBol">
+                                    <option {% if dados_integ[6]=='SIM' %} selected {% endif %} value="T">SIM</option>
+                                    <option {% if dados_integ[6]=='NÃO' %} selected {% endif %} value="F">NÃO</option>
+                                </select>
+                            </div>
+                            {% if dados_integ[4]=='SIM' %}
+                            <div class="clearfix"></div>
+                            <div class="col-md-8 mb-4">
+                                <label>Chave preferencial para pagamento, quando disponível</label>
+                                <select class="form-control" name="prefKey">
+                                    <option {% if dados_integ[8]=='EMAIL' %} selected {% endif %} value="EMAIL">E-Mail</option>
+                                    <option {% if dados_integ[8]=='CPF' %} selected {% endif %} value="CPF">CPF</option>
+                                    <option {% if dados_integ[8]=='PHONE' %} selected {% endif %} value="PHONE">Telefone</option>
+                                </select>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" type="submit" name="btnSave" value="saveParam"><i class="fa fa-fw fa-lg fa-check-circle"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

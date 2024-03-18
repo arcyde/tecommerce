@@ -1,0 +1,99 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-money"></i> Vendas</h1>
+            <p>Visualização e edição das vendas realizadas</p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+            <li class="breadcrumb-item"><a href="#">Financeiro</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for ('.exibeVendas') }}">Vendas</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="tabCad">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Cliente</th>
+                                    <th>Data</th>
+                                    <th>Situação</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dados in data %}
+                                <tr>
+                                    <td>{{ dados[0] }}</td>
+                                    <td><a href="{{url_for('.visCliente', idCliente=dados[1])}}">{{ dados[2] }}</a></td>
+                                    <td>{{ dados[12] }}</td>
+                                    <td>{{ dados[11] }}</td>
+                                    <td id="vlrTot">R$ {{ dados[8] }}</td>
+                                    <td>
+                                        <form style="display: inline" action="{{ url_for ('.visVenda', idVenda = dados[0])}}"><button style="background-color: #4CAF50; border: none; border-radius: 25%;" title="Visualizar"><i class="fa fa-search" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                        <button style="background-color: #2196f3; border: none; border-radius: 25%;" title="Alterar situação" data-toggle="modal" data-target="#saveModal{{dados[0]}}"><i class="fa fa-retweet" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% for dados in data %}
+            <form class="form-horizontal" method="POST">
+                <div class="modal fade" id="saveModal{{dados[0]}}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Alterar status da venda</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <input type="hidden" value="{{dados[0]}}" name="idVenda">
+                                    <label class="control-label col-md-1">Atual</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" disabled value="{{ dados[11] }}">
+                                    </div>
+                                    <label class="control-label col-md-1">Novo</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="statusVenda">
+                                            <option value="0">Finalizada</option>
+                                            <option value="1">Cancelada</option>
+                                            <option value="2">Entrega Pendente</option>
+                                            <option value="3">Pagamento pendente</option>
+                                            <option value="4">Negada</option>
+                                            <option value="5">Estornada</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
+

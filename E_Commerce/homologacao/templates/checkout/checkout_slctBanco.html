@@ -1,0 +1,57 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-shopping-cart"></i> Checkout</h1>
+        <p>Adicionar observação junto ao pedido</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages() %}
+<div class="alert alert-warning" role="alert">{{ message }}</div>
+    {% endfor %}
+
+<div class="tile">
+    <form style="display: inline" method="POST">
+        <div class="control-label col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Selecionar banco
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                    <select class="form-control" id="demoSelect" name="optBanco">
+                        <optgroup label="Selecionar banco">
+                            {% for dados in lstBancos %}
+                            <option value="{{dados[1]}}">{{dados[1]}} - {{dados[8]}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+                    </div>
+                </div>
+            </div>
+
+        <br>
+
+        <div class="input-group-prepend">
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="voltarPgto">Voltar</button>
+            </div>
+
+            <div class="control-label col-md-8">
+            </div>
+
+            <div class="control-label col-md-2" style="text-align: center;">
+                <button class="form-control" type="submit" name="btnConfirm" value="avancaDet2">Avançar</button>
+            </div>
+        </div>
+    </form>
+    </div>
+        {% endblock %}

@@ -1,0 +1,93 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-bullseye"></i> Produtos</h1>
+        <p>Visualização de produto específico</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.exibeProduto') }}">Produtos</a></li>
+        <li class="breadcrumb-item"><a href="#">Visualizar Produtos</a></li>
+    </ul>
+</div>
+
+    {% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+    {% endfor %}
+
+<div class="tile">
+    {% for dados in dados_prod %}
+    <h3 class="tile-title">Produtos</h3>
+    <br />
+    <div class="tile-body">
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Código</label>
+            <div class="col-md-2">
+                <input class="form-control" name="Cod" disabled type="text" placeholder="Código" value="{{ dados[0] }}">
+            </div>
+
+            <label class="control-label col-md-2">Produto</label>
+            <div class="col-md-6">
+                <input class="form-control" name="prod" disabled type="text" placeholder="Produto" value="{{ dados[1] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Descrição</label>
+            <div class="col-md-6">
+                <input class="form-control" name="desc" disabled type="text" placeholder="Descrição" value="{{ dados[2] }}">
+            </div>
+
+            <label class="control-label col-md-2">Quantidade</label>
+            <div class="col-md-2">
+                <input class="form-control" name="qtd" disabled type="text" placeholder="Quant." value="{{ dados[3] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Valor</label>
+            <div class="col-md-2">
+                <input class="form-control" name="vlr" disabled type="text" placeholder="Valor" value="{{ dados[4] }}">
+            </div>
+
+            <label class="control-label col-md-2">Categoria</label>
+            <div class="col-md-6">
+                <input class="form-control" name="categ" disabled type="text" placeholder="Categoria" value="{{ categProd[0][1] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Incremento qtd.</label>
+            <div class="col-md-2">
+                <input class="form-control" name="incremento" disabled type="text" placeholder="Incremento" value="{{ dados[6] }}">
+            </div>
+
+            <label class="control-label col-md-2">Exibe na WEB</label>
+            <div class="col-md-2">
+                <input class="form-control" name="exibeWEB" disabled type="text" placeholder="Exibe WEB" value="{{ dados[7] }}">
+            </div>
+
+            <label class="control-label col-md-2">Exibe valor na WEB</label>
+            <div class="col-md-2">
+                <input class="form-control" name="exibeValorWEB" disabled type="text" placeholder="Exibe Valor WEB" value="{{ dados[8] }}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-md-2">Qtd. máx. p/ Venda</label>
+            <div class="col-md-2">
+                <input class="form-control" name="qtdMax" disabled type="text" placeholder="Qtd. máxima" value="{{ dados[9] }}">
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

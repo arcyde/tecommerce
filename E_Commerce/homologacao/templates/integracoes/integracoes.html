@@ -1,0 +1,54 @@
+{% extends "layout_admin.html" %}
+
+{% block content %}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-sitemap"></i> Integrações</h1>
+        <p>Lista de configuração e visualização das integrações disponíveis</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{{ url_for ('.integracoes') }}">Integrações</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+        {% endfor %}
+        <div class="tile">
+            <br />
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered" id="tabCad">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Integração</th>
+                                <th>Situação</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dados in integracoes %}
+                            <tr>
+                                <td>{{ dados[0] }}</td>
+                                <td>{{ dados[1] }}</td>
+                                <td>{{ dados[2] }}</td>
+                                <td>
+                                    <form style="display: inline" action="{{ url_for ('.integracoesEdit', idIntegracao=dados[0]) }}"><button style="background-color: #2196f3; border: none; border-radius: 25%;" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

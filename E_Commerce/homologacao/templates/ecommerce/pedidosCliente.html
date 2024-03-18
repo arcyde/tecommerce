@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-shopping-bag"></i> Pedidos</h1>
+            <p>Visualização e edição dos pedidos cadastrados</p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item"><a href="{{url_for('.home')}}"><i class="fa fa-home fa-lg"></i></a></li>
+            <li class="breadcrumb-item"><a href="#">Meus Pedidos</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{message[0]}}" role="alert">{{ message[1] }}</div>
+            {% endfor %}
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="tabCad">
+                            <thead>
+                                <tr>
+                                    <th>Nº Pedido</th>
+                                    <th>Data</th>
+                                    <th>Situação</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dados in data %}
+                                <tr>
+                                    <td>{{ dados[0] }}</td>
+                                    <td>{{ dados[12] }}</td>
+                                    <td>{{ dados[11] }}</td>
+                                    <td id="vlrTot">R$ {{ dados[8] }}</td>
+                                    <td>
+                                        {% if dados[10] == "3" %}
+                                        <form style="display: inline" action="{{ url_for ('.checkout', idPedido = dados[0])}}"><button style="background-color: #6a7efc; border: none; border-radius: 25%;" title="Finalizar Compra"><i class="fa fa-money" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                        {% endif %}
+                                        <form style="display: inline" action="{{ url_for ('.historicoPedidosDetalhes', idPedido = dados[0])}}"><button style="background-color: #4CAF50; border: none; border-radius: 25%;" title="Visualizar"><i class="fa fa-search" aria-hidden="true"></i></button></form>&nbsp;&nbsp;
+                                        {% if dados[10] == "3" %}
+                                        <form style="display: inline; border: none;" action="{{ url_for ('.cancelaPedidosCliente', idPedido = dados[0]) }}"><button style="background-color: #ff0000; border: none; border-radius: 25%;" title="Cancelar pedido"><i class="fa fa-times" aria-hidden="true"></i></button></form>
+                                        {% endif %}
+                                        {% if dados[10] == "0" and dados[15] == 'F' and ativa_referencia == 'SIM' %}
+                                        <button style="background-color: yellow; border: none; border-radius: 25%;" title="Enviar referência" data-toggle="modal" data-target="#saveModal{{dados[0]}}"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% for dados in data if dados[10] == "0" and dados[15] == 'F' %}
+            <form class="form-horizontal" method="POST">
+                <div class="modal fade" id="saveModal{{dados[0]}}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Enviar referência</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <input type="hidden" value="{{dados[0]}}" name="idVenda">
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" name="OBS" rows="4" placeholder="Inserir referência"></textarea>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                
+                                <button type="submit" class="btn btn-primary" name="btnConfirm" value="confEntr">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
+
