@@ -22,3 +22,7 @@ Altere o arquivo C:\Windows\System32\Drivers\Etc\Hosts -> adicione a linha:
 E então execute o arquivo runserver.py
 
 http://homologacao.teste.local:5000/Home
+
+Login de administrador:
+arcyde@outlook.com
+SENHA
